@@ -75,13 +75,6 @@ public class JwtUtil {
         if (StringUtils.hasText(bearer) && bearer.startsWith(BEARER_PREFIX)) {
             return bearer.substring(BEARER_PREFIX.length());
         }
-        return null;
-    }
-
-    public String substringToken(String tokenValue) {
-        if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
-            return tokenValue.substring(7);
-        }
         throw new ServerException("Not Found Token");
     }
 
