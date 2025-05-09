@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @RequiredArgsConstructor
-public class AuthUser extends UserDetails {
+public class AuthUser implements UserDetails {
 
     private final User user;
 
@@ -25,11 +25,11 @@ public class AuthUser extends UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return user.getNickName();
     }
 }

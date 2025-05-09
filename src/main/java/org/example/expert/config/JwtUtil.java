@@ -40,8 +40,8 @@ public class JwtUtil {
 
         return BEARER_PREFIX +
                 Jwts.builder()
-                        .setSubject(String.valueOf(userId))
-                        .claim("email", email)
+                        .setSubject(String.valueOf(email))
+                        .claim("userId", userId)
                         .claim("nickName", nickName)
                         .claim("userRole", userRole)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))

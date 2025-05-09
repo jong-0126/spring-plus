@@ -10,10 +10,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.expert.domain.common.dto.AuthUser;
+import org.example.expert.domain.common.service.UserDetailsServiceImpl;
 import org.example.expert.domain.user.enums.UserRole;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -28,6 +31,7 @@ import java.util.Collections;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -46,7 +50,8 @@ public class JwtFilter extends OncePerRequestFilter {
             try{
                 Claims claims = jwtUtil.extractClaims(token);
 
-                Long userId = Long.parseLong(claims.getSubject());
+                String email = claims.getSubject();
+                AuthUser authUser = userDetailsService.loadUserByUsername(email);
                 String userRole = claims.get("userRole", String.class);
 
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userRole);
