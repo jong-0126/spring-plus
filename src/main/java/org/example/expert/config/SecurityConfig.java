@@ -19,7 +19,7 @@ public class SecurityConfig {
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(auth -> auth
 				// 로그인 요청 -> 누구나 접근 가능
-				.requestMatchers("/auth/signin").permitAll()
+				.requestMatchers("/auth/**").permitAll()
 				// /admin/** -> 관리자만 접근 가능
 				.requestMatchers("/admin/**").hasRole("ADMIN")
 				// 나머지는 로그인 인증 팔요
