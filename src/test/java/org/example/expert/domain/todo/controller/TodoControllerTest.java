@@ -26,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TodoController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class TodoControllerTest {
 
     @Autowired
@@ -33,6 +34,9 @@ class TodoControllerTest {
 
     @MockBean
     private TodoService todoService;
+
+    @MockBean
+    private JwtUtil jwtUtil;
 
     @MockBean
     private WeatherClient weatherClient;
@@ -43,9 +47,10 @@ class TodoControllerTest {
         // given
         long todoId = 1L;
         String title = "title";
+        User user = new User("test@naver.com","1234", "test", UserRole.USER);
         AuthUser authUser = new AuthUser(user);
-        User user = User.fromAuthUser(authUser);
-        UserResponse userResponse = new UserResponse(user.getId(), user.getEmail());
+        User fromAuthUser = User.fromAuthUser(authUser);
+        UserResponse userResponse = new UserResponse(fromAuthUser.getId(), fromAuthUser.getEmail());
         TodoResponse response = new TodoResponse(
                 todoId,
                 title,
