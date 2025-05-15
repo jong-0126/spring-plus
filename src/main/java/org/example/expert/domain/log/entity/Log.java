@@ -1,26 +1,34 @@
 package org.example.expert.domain.log.entity;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
+import lombok.Setter;
 import org.example.expert.domain.common.entity.Timestamped;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Getter;
 
+@Setter
 @Getter
 @Entity
 @Table(name = "log")
-public class Log extends Timestamped {
+public class Log {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "request_time", nullable = false)
+	private LocalDateTime requestTime;
+
+	@Column(name = "action", nullable = false)
 	private String action;
 
-	private String details;
+	@Column(name = "message")
+	private String message;
+
+	@Column(name = "user_id")
+	private Long userId;
+
 }
